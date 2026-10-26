@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>寒武纪（688256.SH）深度分析：财报、竞争地位、估值与退潮研判</title>
+<style>
+  :root{
+    --navy:#16243f; --navy2:#1f3357; --gold:#c9a227; --gold-soft:#e7d9a8;
+    --ink:#1d2733; --muted:#5b6776; --line:#e3e8ef;
+    --red:#d8392f; --redbg:#fdecea; --redbd:#f3b6b1;
+    --amber:#d98a00; --amberbg:#fef4e3; --amberbd:#f3d39a;
+    --green:#2e9e5b; --greenbg:#e8f6ee; --greenbd:#b6e3c8;
+    --bg:#eef1f5; --card:#ffffff; --shadow:0 4px 18px rgba(22,36,63,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.75; font-size:15px;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{display:flex;max-width:1280px;margin:0 auto;gap:28px;padding:0 22px 80px}
+
+  /* ---------- Sidebar TOC ---------- */
+  .toc{position:sticky;top:24px;align-self:flex-start;width:230px;flex:0 0 230px;
+    background:var(--card);border-radius:14px;padding:20px 16px;box-shadow:var(--shadow);
+    max-height:calc(100vh - 48px);overflow:auto}
+  .toc h4{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+  .toc a{display:block;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:13.5px;
+    border-left:3px solid transparent;transition:.18s}
+  .toc a:hover{background:#f4f6fa;color:var(--ink)}
+  .toc a.active{background:#f1f5fb;color:var(--navy);border-left-color:var(--gold);font-weight:600}
+  .toc .sub{padding-left:22px;font-size:12.5px}
+
+  /* ---------- Main ---------- */
+  .main{flex:1;min-width:0}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#243a63 100%);
+    color:#fff;border-radius:18px;padding:42px 40px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(201,162,39,.35),transparent 70%);border-radius:50%}
+  .eyebrow{color:var(--gold-soft);font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+  .hero h1{font-family:"Noto Serif SC","Songti SC",serif;font-size:32px;line-height:1.25;margin:12px 0 8px;font-weight:800}
+  .hero .sub{font-size:16px;color:#cdd7e6;font-weight:300}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative;z-index:1}
+  .meta .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+    padding:6px 13px;border-radius:999px;font-size:12.5px;color:#e6ecf5;backdrop-filter:blur(4px)}
+  .meta .chip b{color:var(--gold-soft)}
+
+  section{background:var(--card);border-radius:16px;padding:30px 32px;margin-top:22px;box-shadow:var(--shadow)}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--line)}
+  .sec-head .num{background:var(--navy);color:#fff;font-size:13px;font-weight:700;width:30px;height:30px;
+    border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+  .sec-head h2{font-size:21px;font-weight:800;color:var(--navy)}
+  .sec-head .stars{margin-left:auto;color:var(--gold);font-size:13px;letter-spacing:1px}
+  h3{font-size:16.5px;color:var(--navy2);margin:24px 0 12px;font-weight:700;display:flex;align-items:center;gap:8px}
+  h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+  p{margin:10px 0;color:#33414f}
+
+  .verdict{border-radius:14px;padding:22px 26px;margin:6px 0 18px;
+    background:linear-gradient(135deg,#fdecea,#fff3f1);border:1px solid var(--redbd)}
+  .verdict .tag{display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:13px;
+    padding:4px 14px;border-radius:999px;letter-spacing:.05em}
+  .verdict h3{margin:12px 0 6px;color:var(--red);font-size:18px}
+  .verdict p{color:#5a2b27;margin:6px 0}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:16px 0}
+  .card{border:1px solid var(--line);border-radius:13px;padding:18px 18px 16px;position:relative;background:#fff;
+    border-top:4px solid var(--line)}
+  .card.red{border-top-color:var(--red)}
+  .card.amber{border-top-color:var(--amber)}
+  .card.green{border-top-color:var(--green)}
+  .card .label{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+  .card .val{font-size:30px;font-weight:800;color:var(--navy);margin:6px 0 2px;line-height:1.1}
+  .card .val small{font-size:14px;font-weight:600;color:var(--muted)}
+  .card .note{font-size:12px;color:var(--muted);margin-top:4px}
+  .card .sev{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+  .sev.red{background:var(--redbg);color:var(--red)}
+  .sev.amber{background:var(--amberbg);color:var(--amber)}
+  .sev.green{background:var(--greenbg);color:var(--green)}
+
+  .keypoints{list-style:none;counter-reset:k}
+  .keypoints li{counter-increment:k;position:relative;padding:12px 16px 12px 50px;margin:10px 0;
+    background:#f8fafc;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;font-size:14.5px}
+  .keypoints li::before{content:counter(k);position:absolute;left:14px;top:12px;width:24px;height:24px;
+    background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700}
+  .keypoints b{color:var(--navy)}
+
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border-radius:12px;border:1px solid var(--line)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px;white-space:nowrap}
+  tbody td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#f8fafc}
+  tbody tr:hover{background:#f1f5fb}
+  td .em{font-weight:700;color:var(--navy)}
+  td.red{color:var(--red);font-weight:700}
+  td.amber{color:var(--amber);font-weight:700}
+  td.green{color:var(--green);font-weight:700}
+
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .badge.red{background:var(--redbg);color:var(--red)}
+  .badge.amber{background:var(--amberbg);color:var(--amber)}
+  .badge.green{background:var(--greenbg);color:var(--green)}
+  .badge.navy{background:#e7eefb;color:var(--navy)}
+
+  .lights{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .light{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid var(--line);
+    border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600}
+  .light .ld{width:14px;height:14px;border-radius:50%}
+  .ld.red{background:var(--red);box-shadow:0 0 0 4px var(--redbg)}
+  .ld.amber{background:var(--amber);box-shadow:0 0 0 4px var(--amberbg)}
+  .ld.green{background:var(--green);box-shadow:0 0 0 4px var(--greenbg)}
+
+  .note-box{background:#f4f7fb;border:1px solid #d8e2f0;border-left:4px solid var(--navy);
+    border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:14px}
+  .warn-box{background:var(--amberbg);border:1px solid var(--amberbd);border-left:4px solid var(--amber);
+    border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:14px}
+  .quote{background:#f8fafc;border-left:4px solid var(--gold);padding:14px 20px;margin:16px 0;
+    font-size:15px;color:var(--navy2);font-style:italic;border-radius:0 10px 10px 0}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:900px){.two-col{grid-template-columns:1fr}.toc{display:none}}
+
+  .foot{margin-top:22px;background:#fff;border-radius:16px;padding:24px 32px;box-shadow:var(--shadow);
+    font-size:12.5px;color:var(--muted);border-top:4px solid var(--gold)}
+  .foot b{color:var(--navy)}
+  .disclaimer{background:var(--redbg);border:1px solid var(--redbd);border-radius:12px;padding:16px 20px;margin-top:14px;
+    font-size:13px;color:#6b332e}
+  #toTop{position:fixed;right:26px;bottom:26px;width:46px;height:46px;border-radius:50%;background:var(--navy);
+    color:#fff;border:none;cursor:pointer;font-size:20px;box-shadow:var(--shadow);opacity:0;visibility:hidden;transition:.3s;z-index:50}
+  #toTop.show{opacity:1;visibility:visible}
+  @media print{
+    body{background:#fff}.toc{display:none}section,.hero,.foot{box-shadow:none;break-inside:avoid}
+    #toTop{display:none}.wrap{display:block;max-width:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h4>目录导航</h4>
+    <a href="#s1">一、核心结论速览</a>
+    <a href="#s2">二、财报评价：数据与质量</a>
+    <a href="#s2-1" class="sub">2.1 核心财务表</a>
+    <a href="#s2-2" class="sub">2.2 质量评价</a>
+    <a href="#s3">三、业务板块与订单</a>
+    <a href="#s4">四、经营问题与风险清单</a>
+    <a href="#s5">五、板块地位与前景</a>
+    <a href="#s6">六、科技股崩塌与茅台股王</a>
+    <a href="#s7">七、估值与下修逻辑</a>
+    <a href="#s8">八、跟踪指标与结论</a>
+    <a href="#s9">九、数据来源与口径</a>
+  </nav>
+
+  <div class="main">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="eyebrow">股哥·投研部 · 个股深度研究</div>
+      <h1>寒武纪（688256.SH）深度分析<br>财报 · 竞争地位 · 估值 · 退潮研判</h1>
+      <div class="sub">2026 年三季报（披露日 2026-10-24）· 数据截止 2026-10-26 收盘</div>
+      <div class="meta">
+        <span class="chip">报告时间 <b>2026-10-26</b></span>
+        <span class="chip">财报期 <b>2026 三季报</b></span>
+        <span class="chip">收盘价 <b>968.00 元</b></span>
+        <span class="chip">市值 <b>6,087 亿</b></span>
+        <span class="chip">评级倾向 <b>中性 Neutral</b></span>
+      </div>
+    </header>
+
+    <!-- ============ S1 ============ -->
+    <section id="s1">
+      <div class="sec-head"><span class="num">1</span><h2>核心结论速览（TL;DR）</h2><span class="stars">⭐⭐⭐⭐⭐</span></div>
+
+      <div class="verdict">
+        <span class="tag">一句话结论</span>
+        <h3>这是一份「利润表优秀、现金流量表失真」的财报，叠加一次「无风险利率上行驱动的板块性杀估值」</h3>
+        <p>寒武纪的炒作已经退潮，但退潮的是「泡沫」不是「基本面」；估值下修走的是分母端，已走完第一段，进入业绩消化估值阶段。</p>
+      </div>
+
+      <ul class="keypoints">
+        <li><b>财报：利润表很漂亮，现金流是硬伤。</b>前三季度营收 95.26 亿（+106.76%）、归母 37.15 亿（+131.49%）、扣非 35.23 亿；但经营现金流仅 2.28 亿，<b>现金转化率 6.1%</b>，Q2/Q3 连续两季为负，差额 34.87 亿。</li>
+        <li><b>存货 116.65 亿已超过 2025 全年营收</b>（64.97 亿），较年初 +135.96%、同比 +212.8%，公司已在 10-24 主动计提跌价 5.02 亿（净减利润总额 4.87 亿）。</li>
+        <li><b>收入结构近乎单一品类：</b>云端产品线占 99.9774%；IP 授权及软件实质归零（2025 全年仅 228.9 万），边缘产品线 −43.8%，境外收入趋近于零。「高毛利 IP 授权拉升毛利率」的叙事已被财报证伪。</li>
+        <li><b>订单：公司层面没有可验证的 backlog</b>（三季报未披露在手订单金额）；但间接证据极强——存货 116.65 亿 + 预付 30.44 亿 = 147.09 亿物料已锁定，应付票据+应付账款 67.93 亿由供应链垫资。</li>
+        <li><b>板块地位：</b>IDC 2026H1 中国 AI 加速器份额 5%，居国产第三（华为昇腾 28%、平头哥 7%、昆仑芯 4%、海光 3%）；但财务口径是<b>国产净利润第一</b>（37.15 亿，超海光 8.68 亿）、<b>净利率第一</b>（38.99% vs 海光 19.03%）。</li>
+        <li><b>科技股崩塌第一推手是贴现率，不是需求。</b>美联储 2026-09-16 加息 25bp 至 3.75-4.00%，SEP 点阵图中位数从 3.8% 上修至 4.1%，10Y 从 2 月低点 3.97% 升至 10 月高点 5.31%，30Y 破 5.3%。这是「加息确认」不是「降息推迟」。</li>
+        <li><b>茅台重回「股王」是「股价第一」不是「市值第一」</b>（茅台市值 16,875.85 亿，仍是寒武纪 6,087.31 亿的 2.77 倍）。这是高价股内部的高低切换，杀的是位置最贵的，不是杀业绩最扎实的（寒武纪 1 月仅 −13.04%，AI 链跌幅最小之一）。</li>
+        <li><b>炒作退潮：信号成立，且已走完「杀估值」第一段。</b>机构持股家数 Q2→Q3 从 2,483 → 273/314 家（−87%~−89%），张坤/傅鹏博/刘格菘集体清仓；股东户数逆势 +23.57%（+13,734 户）、户均市值 −48.8% → 典型散户接盘、机构出货；融资余额 11 日 −11.8%。</li>
+        <li><b>估值下修概率：分母端 &gt; 分子端。</b>分子端（业绩杀）30%、分母端（估值杀）50%、戴维斯双杀 20%；三情景：震荡消化 55% / 二次下修 33% / 二次新高 12%。寒武纪已从「炒作标的」切换为「配置标的」，但估值绝对值仍不便宜。</li>
+      </ul>
+
+      <div class="note-box">📌 <b>投资倾向：中性（Neutral）</b>——基本面可信、估值不便宜、流动性在恶化、风险集中在 2026Q4-2027Q1 的存货与现金流。这是一个「等数据」而非「下注」的标的。</div>
+    </section>
+
+    <!-- ============ S2 ============ -->
+    <section id="s2">
+      <div class="sec-head"><span class="num">2</span><h2>财报评价：数据与质量</h2></div>
+      <p><b>结论先行：收入端干净、利润端真实、现金端失真、存货端危险。</b></p>
+
+      <h3 id="s2-1"><span class="dot"></span>2.1 核心财务表（2026 年前三季度）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>指标</th><th>寒武纪</th><th>海光信息（对照）</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td class="em">营业总收入</td><td>95.26 亿（+106.76%）</td><td>149.55 亿（+57.58%）</td><td>国产第二，增速最快</td></tr>
+          <tr><td class="em">Q3 单季营收</td><td>35.31 亿（+104.47%），环比 +13%</td><td>58.56 亿（+45.46%）</td><td>Q2 为 31.11 亿</td></tr>
+          <tr><td class="em">归母净利润</td><td>37.15 亿（+131.49%）</td><td>28.47 亿（+45.12%）</td><td>国产第一，多 8.68 亿</td></tr>
+          <tr><td class="em">扣非归母净利润</td><td>35.23 亿（Q3 单季 13.58 亿，+168.13%）</td><td>25.84 亿</td><td>非经常性损益仅占 5.2%</td></tr>
+          <tr><td class="em">归母净利率</td><td>38.99%（Q3 39.75%）</td><td>19.03%</td><td>国产第一，+19.96pct</td></tr>
+          <tr><td class="em">毛利率</td><td>56.53%（Q3 单季约 59%，Q2 56%）</td><td>56.59%</td><td>仅差 0.06pct</td></tr>
+          <tr><td class="em">研发投入</td><td>12.25 亿（+45.35%），占营收 12.86%，资本化 0%</td><td>44.72 亿，占 29.90%，资本化 4.29%</td><td>会计更谨慎</td></tr>
+          <tr><td class="em">销售费用</td><td>0.45 亿（占营收 0.48%）</td><td>6.75 亿（占 4.52%）</td><td>异常低，可能是科目分类所致</td></tr>
+          <tr><td class="em">经营活动现金流净额</td><td class="red">+2.28 亿（Q2 −5.23 亿、Q3 −0.83 亿）</td><td>−24.43 亿</td><td>现金转化率 6.1%</td></tr>
+          <tr><td class="em">净利与经营现金流差额</td><td class="red">34.87 亿</td><td>由正转负</td><td>第一号风险</td></tr>
+          <tr><td class="em">存货</td><td class="red">116.65 亿（较年末 +135.96%，同比 +212.8%）</td><td>89.21 亿（+39.26%）</td><td>= 前三季营收的 122.5%</td></tr>
+          <tr><td class="em">预付款项</td><td>30.44 亿（同比 +341%）</td><td>58.85 亿</td><td>抢产能证据</td></tr>
+          <tr><td class="em">应付票据+应付账款</td><td>67.93 亿（较年初 +56.77 亿）</td><td>—</td><td>供应链代公司垫资</td></tr>
+          <tr><td class="em">合同负债</td><td>1.41 亿（2026Q1 3.96 亿，−64.3%）</td><td>由 2025 年末 20.19 亿骤降至 0.12 亿</td><td>订单前瞻指标未扩张</td></tr>
+          <tr><td class="em">资产负债率</td><td>32.36%（2025Q3 10.12%）</td><td>—</td><td>一年抬升 22pct</td></tr>
+          <tr><td class="em">可动用资金</td><td>货币 5.55 + 交易性金融资产 38.11 = 43.66 亿</td><td>—</td><td>较年初 −21.7%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted)">数据来源：东方财富 / 21 世纪经济报道（2026-10-26）。</p>
+
+      <h3 id="s2-2"><span class="dot"></span>2.2 质量评价：好在哪、差在哪</h3>
+      <div class="lights">
+        <span class="light"><span class="ld green"></span>好的 4 点</span>
+        <span class="light"><span class="ld red"></span>差的 3 点</span>
+      </div>
+      <div class="two-col">
+        <div>
+          <p><b style="color:var(--green)">🟢 好的</b></p>
+          <ul class="keypoints" style="counter-reset:k">
+            <li><b>收入确认干净：</b>销售商品收到现金 106.71 亿 &gt; 营收 95.26 亿，收现比 112.0%；应收账款 9.38 亿仅占营收 9.8%，无渠道压货、无赊销冲收入迹象。</li>
+            <li><b>利润是真的：</b>扣非/归母 = 94.8%，Q3 单季扣非增速 +168.13% 高于归母增速 +147.74% → 主业驱动。</li>
+            <li><b>会计谨慎：</b>研发 100% 费用化（海光资本化 4.29%）；Q3 主动计提存货跌价 5.02 亿，净减利润总额 4.87 亿（主动认损而非暴雷）。</li>
+            <li><b>费用杠杆释放：</b>收入增速 +106.76% 远超研发增速 +45.35%，研发费用率摊薄至 12.86%。</li>
+          </ul>
+        </div>
+        <div>
+          <p><b style="color:var(--red)">🔴 差的</b></p>
+          <ul class="keypoints" style="counter-reset:k">
+            <li><b>现金流失真：</b>现金转化率 6.1%，PCF_OCF_TTM = −2521.08（分母为负，现金流口径估值彻底失效）。Q2/Q3 连续两季经营现金流为负。</li>
+            <li><b>存货是刺眼单项：</b>116.65 亿 = 2025 全年营收的 179.5%；估算周转天数 548 天（估算值，非披露值）。</li>
+            <li><b>背离不免费：</b>存货+预付较年初 +90.2 亿，应付端同时 +56.8 亿，净额约 33.4 亿与 34.87 亿差额吻合——公司用供应链账期把营运资本压力转嫁给了上游晶圆厂和封测厂。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-box">⚠️ <b>公允对照：</b>海光同期经营现金流 −24.43 亿，比寒武纪更差。所以这是国产算力板块共性的营运资本占款，不是个体舞弊；但估值给的是个股的估值，不是板块平均分。<br><b>另需注意：</b>董事长兼总经理陈天石在 10-26 业绩说明会上明确辟谣「明年芯片出货量超过 100 万颗」的说法，称公司从未进行过相关沟通。这本身说明市场预期已经跑到业绩前面很远。</div>
+    </section>
+
+    <!-- ============ S3 ============ -->
+    <section id="s3">
+      <div class="sec-head"><span class="num">3</span><h2>业务板块表现与订单</h2></div>
+      <p><b>结论先行：单一产品线撑起全部业绩，第二曲线已经消失；订单「是真的」，但「收不到钱」是真问题。</b></p>
+
+      <h3><span class="dot"></span>3.1 分板块收入结构（2026 中报口径）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>分产品</th><th>2026H1 收入</th><th>占比</th><th>毛利率</th><th>同比</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td class="em">云端产品线</td><td>59.94 亿</td><td>99.9774%</td><td>55.25%</td><td>+108.9%</td><td>唯一支柱</td></tr>
+          <tr><td class="em">边缘产品线</td><td>87.7 万元</td><td>0.0146%</td><td>48.29%</td><td>−43.8%</td><td>萎缩</td></tr>
+          <tr><td class="em">IP 授权及软件</td><td>未单独披露</td><td>—</td><td>—</td><td>—</td><td>实质归零（2025 全年 228.9 万，毛利率 99.999%）</td></tr>
+          <tr><td class="em">其他（技术服务等）</td><td>47.8 万元</td><td>0.008%</td><td>68.86%</td><td>−94.8%</td><td>萎缩</td></tr>
+          <tr><td class="em">集成电路合计</td><td>59.96 亿</td><td>100%</td><td>55.25%</td><td>+108.2%</td><td>—</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted)">注：东方财富主营构成接口截至采集时（2026-10-26 19:00）尚未更新三季报分产品数据，故用 2026H1 口径。</p>
+
+      <div class="note-box">三点必须点名：①「结构升级」叙事已破产——IP 授权归零意味着毛利率 56.53% 完全由云端硬件单腿撑起，市场需要把它重新定价为一家纯 AI 加速卡硬件公司。②境外收入趋近于零（2026H1 境内占比 99.99%），业绩 100% 绑定国内 AI 资本开支周期，无地理分散。③毛利率三年降 12.63pct（2023 年 69.16% → 2026Q3 56.53%）是「以价换量」的硬证据；Q2→Q3 的 56%→59% 回升建立在业绩说明会明确的「原材料供应紧张」这一可反转条件上。</div>
+
+      <h3><span class="dot"></span>3.2 订单质量四维评价</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>维度</th><th>证据</th><th>评级</th></tr></thead>
+        <tbody>
+          <tr><td class="em">① 框架意向还是已签订单？</td><td>在手订单金额无法验证（三季报未披露）；2026 年 10 月寒武纪自身无重大订单/中标公告（当日 36.4 亿「一体化项目」中标为其他公司）；但存货 116.65 亿 + 预付 30.44 亿 = 147.09 亿物料已锁定，供应商已在排产</td><td><span class="badge green">偏「已确定需求的产能预订」，比框架协议硬得多</span></td></tr>
+          <tr><td class="em">② 集中度</td><td>产品集中度 99.9774%、境外趋近于零；前五大客户占比无法验证</td><td><span class="badge red">高风险（未验证）</span></td></tr>
+          <tr><td class="em">③ 交付节奏</td><td>Q3 营收环比 +13%，毛利率逆势回升 3pct（说明交付的是高价值卡而非低价甩货）；海光明确「已备存货将于 Q4 及后续年度逐步转化为收入及现金流」</td><td><span class="badge green">转化路径清晰，未来 2-4 季度确定性较高</span></td></tr>
+          <tr><td class="em">④ 是否以价换量</td><td>三年毛利率 −12.63pct 是历史证据；但边际方向已反转（Q3 营收 +13% 同时毛利率 +3pct）</td><td><span class="badge amber">边际改善，历史仍以价换量</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="quote">订单质量综合评级：🟡 订单是真的，但兑现成现金的路径是脆弱的。合同负债 1.41 亿不是退潮证据——海光同期由 20.19 亿骤降至 0.12 亿，官方口径「完成相关产品交付」，是行业性「交付即结转」节奏。但它意味着未来营收完全依赖交付能力，已无在手预收缓冲垫。</div>
+    </section>
+
+    <!-- ============ S4 ============ -->
+    <section id="s4">
+      <div class="sec-head"><span class="num">4</span><h2>经营问题与风险清单</h2></div>
+      <p><b>结论先行：高等级风险 4 项、中等级风险 5 项、低等级风险 2 项。风险高度集中在 2026Q4-2027Q1 的存货与现金流。</b></p>
+
+      <h3><span class="dot"></span>4.1 🔴 高等级风险（4 项）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>问题</th><th>证据</th><th>潜在后果</th></tr></thead>
+        <tbody>
+          <tr><td class="em">高-1</td><td>经营现金流与净利润严重背离，利润含金量仅 6.1%</td><td>前三季度 OCF 2.28 亿 vs 归母 37.15 亿，差额 34.87 亿；Q2 −5.23 亿、Q3 −0.83 亿连续为负；PCF_OCF_TTM −2521.08</td><td>供应商一旦收紧账期，现金压力由「延后」变「爆发」；现金流口径估值完全失效</td></tr>
+          <tr><td class="em">高-2</td><td>存货 116.65 亿超全年营收 1.8 倍，技术迭代减值敞口巨大</td><td>较年末 +135.96%、同比 +212.8%；周转 548 天（估算）；已计提跌价 5.02 亿</td><td>锁定 548 天的物料面临代际错配；Q4-2027Q1 是减值兑现窗口</td></tr>
+          <tr><td class="em">高-3</td><td>收入结构近乎单一品类依赖，无第二曲线，境外为零</td><td>云端 99.9774%；IP 授权归零；边缘 −43.8%；其他 −94.8%；IDC 份额仅 5%</td><td>「IP 授权高毛利拉升毛利率」叙事被财报证伪，需重新定价为纯硬件公司；命运完全绑定「国产 AI 训练/推理卡」一个问题</td></tr>
+          <tr><td class="em">高-4</td><td>毛利率回升是周期性红利，价格战风险未解除</td><td>2023 年 69.16% → 2026Q1 54.33%，三年 −14.83pct；Q2→Q3 的 +3pct 归因于「原材料供应紧张」；研发 12.25 亿 vs 海光 44.72 亿（少 32.47 亿）</td><td>产能瓶颈缓解 → 价格战是必然结果；毛利率若回到 54% 附近，38.99% 的净利率将大幅回落</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3><span class="dot"></span>4.2 🟡 中等级风险（5 项）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>问题</th><th>证据</th><th>潜在后果</th></tr></thead>
+        <tbody>
+          <tr><td class="em">中-1</td><td>合同负债萎缩，营收缺前瞻缓冲</td><td>2026Q1 3.96 亿 → Q3 1.41 亿（−64.3%），仅相当于单季营收 35.31 亿的 4.0%</td><td>未来营收完全依赖交付能力，无缓冲</td></tr>
+          <tr><td class="em">中-2</td><td>客户集中度极高</td><td>产品集中 99.9774%、境外趋近于零；客户群为头部互联网/金融</td><td>任一大客户调整采购或转向自研/昇腾，将直接冲击单季营收</td></tr>
+          <tr><td class="em">中-3</td><td>供应链/代工产能获取风险</td><td>业绩说明会明确「原材料供应紧张」；预付 +341%；中微公司设备交付排至 2027 上半年</td><td>利好：卡位早、已锁产能者受益；利空：拿不到增量产能就无法放量</td></tr>
+          <tr><td class="em">中-4</td><td>盈利可持续性</td><td>扣非/归母 94.8%；研发 100% 费用化</td><td>真问题不在「利润是不是真的」，而在「利润何时变成现金」和「毛利率能不能守住」</td></tr>
+          <tr><td class="em">中-5</td><td>营运资金紧张 + 10 亿临时补流重复使用</td><td>12 个月内第二次临时补流；货币资金 13.17→5.55 亿（−57.9%）；资产负债率 +20.5pct</td><td>若 Q4 备货再加码且回款不及预期，2027H1 有启动股权再融资的可能（当前概率低）</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3><span class="dot"></span>4.3 🟢 低等级风险（2 项）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>问题</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td class="em">低-1</td><td>出口管制 / 实体清单</td><td>直接风险低，境外收入趋近于零；真实风险在间接（先进制程设备进口受限 → 代工产能受限），国产替代反而是受益方</td></tr>
+          <tr><td class="em">低-2</td><td>重要股东减持</td><td>陈天石及关联方 Q3 持股未变、无减持（实控人系合计 52.38%）；2026 年内无解禁批次；10 月大宗交易全部 0 折价、卖方含中金北京总部营业部 → 属流动性信号，非减持风险信号</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="warn-box">⚠️ <b>明确列出的数据缺口</b>（上游分析师一致认同）：前五大客户收入占比 ｜ 三季报分产品收入拆分 ｜ 销售/管理/研发费用科目绝对额（验证 0.48% 销售费用率是否为科目腾挪）｜ 存货跌价准备累计余额比例 ｜ 在手订单/意向订单金额 ｜ 应收账款账龄与坏账计提 ｜ 制程节点/代工方/产能配额 ｜ 前五大客户集中度 ｜ 超节点/集群产品布局 ｜ 2026Q3 末机构持股逐机构明细 ｜ 融资余额 1 年/年初对比值 ｜ 龙虎榜上榜频次 ｜ 茅台批发价/动销/分红率 ｜ 中国央行降准降息/LPR 与 10 月社融 M2 ｜ DXY 美元指数。以上均为数据无法验证，本文不做任何推测性填充。</div>
+    </section>
+
+    <!-- ============ S5 ============ -->
+    <section id="s5">
+      <div class="sec-head"><span class="num">5</span><h2>板块地位与前景</h2></div>
+      <p><b>结论先行：IDC 份额 5%（国产第三），财务口径国产第一；这是「份额替代加速期」而非「景气见顶期」，但 2027 年后面临价格战 + 系统级竞争双重考验。</b></p>
+
+      <h3><span class="dot"></span>5.1 竞争格局对照表（IDC 2026H1 中国 AI 加速器份额）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>厂商</th><th>平台</th><th>IDC 2026H1 份额</th><th>2026 前三季度营收</th><th>同比</th><th>毛利率</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td class="em">英伟达</td><td>GPU</td><td>34%</td><td>—</td><td>—</td><td>—</td><td>份额下滑但仍第一</td></tr>
+          <tr><td class="em">华为昇腾</td><td>NPU</td><td>28%</td><td>非上市</td><td>—</td><td>—</td><td>国产绝对龙头（57.2 万颗，同比近翻倍）</td></tr>
+          <tr><td class="em">阿里平头哥</td><td>含光</td><td>7%</td><td>非上市</td><td>—</td><td>—</td><td>绑定阿里云</td></tr>
+          <tr><td class="em" style="background:#fff3f1">寒武纪</td><td>NPU/GPU</td><td>5%</td><td>95.26 亿</td><td>+106.76%</td><td>56.53%</td><td>增速第一梯队，份额国产第三</td></tr>
+          <tr><td class="em">百度昆仑芯</td><td>昆仑</td><td>4%</td><td>非上市</td><td>—</td><td>—</td><td>依托百度百舸（3.2 万卡集群）</td></tr>
+          <tr><td class="em">海光信息</td><td>DCU+CPU</td><td>3%</td><td>149.55 亿</td><td>+57.58%</td><td>56.59%</td><td>营收第一，份额低于寒武纪</td></tr>
+          <tr><td class="em">沐曦股份-U</td><td>MXNPU</td><td>未披露</td><td>13.24 亿（H1）</td><td>+44.67%</td><td>57.22%</td><td>第二梯队</td></tr>
+          <tr><td class="em">摩尔线程-U</td><td>MTT</td><td>未披露</td><td>17.36 亿（H1）</td><td>+147.42%</td><td>56.95%</td><td>第二梯队，微亏 −0.12 亿</td></tr>
+          <tr><td class="em">燧原科技-U</td><td>TPU</td><td>未披露</td><td>11.20 亿（H1）</td><td>+279.08%</td><td>30.37%</td><td>第二梯队，亏 6.32 亿</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted)">份额来源：IDC 报告，经中国经营网 2026-10-24 转引。</p>
+
+      <h3><span class="dot"></span>5.2 行业周期位置：从「爆发期」切入「替代期」</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>关键数据</th><th>数值</th><th>拆分</th><th>含义</th></tr></thead>
+        <tbody>
+          <tr><td class="em">中国 AI 加速器总出货 2026H1</td><td>200.8 万颗</td><td>GPU 99.1 万颗 −26%、非 GPU 101.6 万颗 +近 80%，首次超过 GPU</td><td>增量来自结构替代，不是总量扩张 → 寒武纪对「全球 AI CapEx 见顶」的敏感度低于光模块/整机厂</td></tr>
+          <tr><td class="em">工信部智能算力规模（2026-09）</td><td>2592 EFLOPS，同比 +146%</td><td>—</td><td>与出货量全年预测 +19% 形成 7 倍剪刀差 → 单卡算力密度快速提升，「卡」的价值在下降，「集群+系统软件」在上升</td></tr>
+          <tr><td class="em">九大云厂商 CapEx 2026 / 2027</td><td>9,570 亿美元（+106%）/ 再 +60% 破 1.5 万亿</td><td>—</td><td>总量并未见顶，是斜率担忧 + 分母挤压，不是需求证伪</td></tr>
+          <tr><td class="em">供给瓶颈</td><td>中微设备交付排至 2027H1；存储建设周期 &gt;2 年</td><td>AI 服务器 DRAM 用量为传统 8-10 倍</td><td>先进制程产能 2027 上半年前无法大幅扩张 → 既是护城河也是天花板</td></tr>
+          <tr><td class="em">IDC 竞争焦点</td><td>「从单颗芯片性能转向系统整体能力」</td><td>—</td><td>寒武纪在「超节点/系统级」新战场上处于跟随位置（昇腾 950/960 超节点、384 超节点商用 750+ 套）</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3><span class="dot"></span>5.3 卡位判断（一句话）</h3>
+      <div class="quote">收入规模国产第二、净利润国产第一、IDC 份额 5% 居国产第三、与第二梯队存在 5.5-8.5 倍量级断层。<br><b>护城河：</b>中立性（互联网非阿里系 + 金融）、单卡极致、产能卡位红利（2026H2-2027H1 窗口期）。<br><b>天花板：</b>单品类 99.98%、无系统级叙事、无上游议价权、产能不透明、存货 147 亿占款。<br><b>独立空间测算：</b>国产阵营合计约 66%，寒武纪天花板是在国产 66% 里争 10-15% → 对应 20-30 万颗/半年，比现在大 2-3 倍但<b>不是无限空间</b>。</div>
+    </section>
+
+    <!-- ============ S6 ============ -->
+    <section id="s6">
+      <div class="sec-head"><span class="num">6</span><h2>科技股崩塌与茅台股王：市场环境</h2></div>
+      <p><b>结论先行：这是同一枚硬币的两面，驱动变量是「全球无风险利率上行」这一件事。</b></p>
+
+      <h3><span class="dot"></span>6.1 宏观归因（五层权重）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>层级</th><th>权重</th><th>核心证据</th></tr></thead>
+        <tbody>
+          <tr><td class="em">A. 利率与贴现率层</td><td><span class="badge red">40%（第一主导变量）</span></td><td>美联储 2026-09-16 加息 25bp 至 3.75-4.00%；SEP 点阵图中位数 3.8%→4.1%（净上修 30bp）；10Y 从 2 月低点 3.97% → 10 月高点 5.31%（上行 134bp），30Y 破 5.3%；法国 10Y 2002 年 7 月以来首破 5%</td></tr>
+          <tr><td class="em">B. 拥挤度与仓位层</td><td><span class="badge amber">25%（放大器）</span></td><td>机构家数 −87%~−89%；股东户数 +23.57%；融资余额峰值 270.84 亿 → 149.98 亿（−44.6%）；主动基金占流通比 −62.43%</td></tr>
+          <tr><td class="em">C. 产业景气斜率层</td><td><span class="badge amber">20%（导火索）</span></td><td>Anthropic 超级 IPO 被称「检验 AI 热潮胃口的关键试金石」；特斯拉 Q3 资本支出远逊预期、经营利润 −56%；台积电 10-22 单日 −4.52%</td></tr>
+          <tr><td class="em">D. 风格与资金结构层</td><td><span class="badge green">10%（结果）</span></td><td>科创50 1 月 −20.40% vs 上证50 −3.21%，差 17.2pct；中国石油创 2008 年 5 月以来新高</td></tr>
+          <tr><td class="em">E. 政策与地缘层</td><td><span class="badge green">5%（边际）</span></td><td>布伦特原油 +3.83% 至 112.98 美元/桶；中东冲突升级</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">🔑 <b>关键纠偏：</b>市场普遍叙事是「降息预期推迟 → 杀估值」。美联储一手文件显示 2026 年不存在降息路径，基准是「加息后维持高位」，且点阵图中枢仍在缓慢上移。「加息确认 + SEP 持续上修通胀」是趋势性收紧，对长久期成长股比一次性预期修正更致命。</div>
+
+      <h3><span class="dot"></span>6.2 跌幅对照表（收盘价基准 2026-10-26）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>标的</th><th>收盘价</th><th>1 周</th><th>1 月</th><th>距 52 周高</th><th>PE(TTM)</th><th>总市值</th></tr></thead>
+        <tbody>
+          <tr><td class="em">科创50</td><td>1315.50</td><td>−1.03%</td><td>−20.40%</td><td>−41.67%（高 2255.25）</td><td>106.18</td><td>48,185 亿</td></tr>
+          <tr><td class="em">创业板指</td><td>2638.23</td><td>−3.93%</td><td>−21.78%</td><td>−39.77%（高 4380.41）</td><td>46.92</td><td>155,927 亿</td></tr>
+          <tr><td class="em">上证50</td><td>2769.05</td><td>−0.19%</td><td>−3.21%</td><td>−12.86%</td><td>10.85</td><td>239,130 亿</td></tr>
+          <tr><td class="em" style="background:#fff3f1">寒武纪</td><td>968.00</td><td class="green">+4.25%</td><td>−13.04%</td><td>−40.25%（高 1620.00）</td><td>146.01</td><td>6,087 亿</td></tr>
+          <tr><td class="em">海光信息</td><td>198.00</td><td class="green">+3.39%</td><td>−17.97%</td><td>−49.89%</td><td>134.18</td><td>4,602 亿</td></tr>
+          <tr><td class="em">中际旭创（光模块）</td><td>594.50</td><td>−10.02%</td><td class="red">−35.75%</td><td>−58.01%</td><td>34.24</td><td>7,003 亿</td></tr>
+          <tr><td class="em">新易盛（光模块）</td><td>251.69</td><td>−18.28%</td><td class="red">−43.44%</td><td>−59.33%</td><td>26.76</td><td>3,510 亿</td></tr>
+          <tr><td class="em">联讯仪器（上一任股王）</td><td>1050.00</td><td>−8.89%</td><td class="red">−37.03%</td><td>−44.06%</td><td>233.17</td><td>1,595 亿</td></tr>
+          <tr><td class="em">源杰科技</td><td>875.00</td><td>−12.67%</td><td class="red">−52.29%</td><td>−55.52%</td><td>144.92</td><td>1,089 亿</td></tr>
+          <tr><td class="em">贵州茅台</td><td>1349.98</td><td class="green">+1.89%</td><td class="green">+7.39%</td><td>−12.34%</td><td>20.72</td><td>16,876 亿</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3><span class="dot"></span>6.3 「股王」事件链与正确解读</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>日期</th><th>事件</th><th>数字</th></tr></thead>
+        <tbody>
+          <tr><td class="em">2026-06-25</td><td>联讯仪器(688808)创上市新高，夺得 A 股股王</td><td>盘中最高 2777.77 元，收 2700 元</td></tr>
+          <tr><td class="em">2026-10-12</td><td>茅台收复股王（首次夺回日）</td><td>茅台 +1.98% 收 1288 元；联讯 −8.13% 收 1277 元；源杰 −6.96% 报 1122.11 元</td></tr>
+          <tr><td class="em">2026-10-14</td><td>财联社口径「重返股王」</td><td>领先联讯近 10.8%、领先源杰近 16.7%</td></tr>
+          <tr><td class="em">2026-10-16</td><td>茅台站稳千三关口</td><td>收 1329 元，创 9/7 以来 5 周新高</td></tr>
+          <tr><td class="em">2026-10-26</td><td>茅台继续走高</td><td>收 1349.98 元，+1.12%，市值 16,875.85 亿，PE 20.72，PB 6.72</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">三条必须澄清的点：①这是「A 股股价第一（最高股价）」的争夺，不是「市值第一」。茅台市值 16,875.85 亿，仍是寒武纪 6,087.31 亿的 2.77 倍。②这是「被迫的、防御性的再平衡」，不是主动的趋势性切换。触发器是外生利率，一旦 2027 年利率转向，切换会立刻逆转；且红利资产自身也不便宜（银行/煤炭/石油 PE 5 年分位 100%）。③杀的是位置，不是方向。寒武纪 1 月 −13.04% 是 AI 链跌幅最小的一批之一（仅高于中科曙光 −7.65%）→ 它被拖累了，但不是被针对了。</div>
+    </section>
+
+    <!-- ============ S7 ============ -->
+    <section id="s7">
+      <div class="sec-head"><span class="num">7</span><h2>估值：当前 vs 历史 + 估值下修逻辑</h2></div>
+      <p><b>结论先行：当前不是「高位回调」，而是「股价从极高位置跌下来后，估值指标因分母暴增而回到历史最低」。这个「低分位」是分母效应，不构成安全边际。</b></p>
+
+      <h3><span class="dot"></span>7.1 当前估值与历史分位</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>指标</th><th>当前值</th><th>上市以来分位</th><th>近 3 年分位</th><th>近 1 年 / 2026 年内分位</th><th>判读</th></tr></thead>
+        <tbody>
+          <tr><td class="em">收盘价</td><td>968.00 元（+3.84%）</td><td>—</td><td>62.0%</td><td>3.3% / 4.1%</td><td>股价位置仍高（近 3 年）</td></tr>
+          <tr><td class="em">总市值</td><td>6,087.31 亿元</td><td>—</td><td>82%</td><td>—</td><td>市值位置高</td></tr>
+          <tr><td class="em">PE(TTM)</td><td>146.01（PE(LAR) 295.61）</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>分位低 ≠ 便宜，146 倍绝对值仍高</td></tr>
+          <tr><td class="em">PS(TTM)</td><td>53.32</td><td>16.7%</td><td>0.0%</td><td>0.0%</td><td>三年最低，但这是分母效应</td></tr>
+          <tr><td class="em">PB(MRQ)</td><td>40.25</td><td>—</td><td>—</td><td>—</td><td>全表最刺眼：每股净资产仅 24.05 元</td></tr>
+          <tr><td class="em">PCF_OCF_TTM</td><td>−2521.08</td><td>—</td><td>—</td><td>—</td><td>现金流口径估值完全失效（分母为负）</td></tr>
+          <tr><td class="em">距 52 周高点（1620.00）</td><td>−40.25%</td><td>—</td><td>—</td><td>—</td><td>距年内低点（883.94，10-22）+9.51%；YTD +3.88%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">三条硬约束（任何「寒武纪便宜了」的说法都要先接受）：① PS 53.32 的「0% 分位」是分母效应。TTM 营收 3 年涨了 3 倍多（PS 从 100 倍被动降到 53 倍），同期股价近 3 年仍在 62% 分位、市值 82% 分位。② PB 40.25 倍是真正的硬约束。净资产分母不会随营收同步变厚。③ PE(TTM) 146.01 不失真但不是好尺子。该用 PS(forward)：2026E 46.6 倍、2027E 23.4 倍（按 260 亿营收）；即便按 2027 年增速降至 30-50% 测算（169.7-195.9 亿营收），PS(2027E) 仍在 31-36 倍——不便宜。</div>
+
+      <h3><span class="dot"></span>7.2 「估值下修」的三条路径与三情景</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>路径 / 情景</th><th>概率</th><th>依据</th></tr></thead>
+        <tbody>
+          <tr><td class="em">② 分母端「估值杀」</td><td><span class="badge red">50%（最高）</span></td><td>10Y 4.999% 距破 5% 仅 1BP、法国 10Y 首破 5%、VIX 21.67；但 10Y 未破 5%、VIX 未到 30，且寒武纪有独立 alpha（三季报后当日主力净流入 12.84 亿居科创板第一）</td></tr>
+          <tr><td class="em">① 分子端「业绩杀」</td><td><span class="badge amber">30%</span></td><td>支持：Q3 环比 +13%、毛利率 +3pct、扣非 +168%、单季净利创上市以来新高。反对：合同负债 1.41 亿缓冲耗尽、存货 548 天、董事长辟谣出货传闻</td></tr>
+          <tr><td class="em">③ 戴维斯双杀</td><td><span class="badge amber">20%</span></td><td>需「存货再计提 + 毛利率环比回落 &gt;2pct + 长端利率破 5%」同时点火；当前业绩数据仍向上，点火条件未齐备</td></tr>
+          <tr><td class="em">A. 震荡消化（基准）</td><td><span class="badge green">55%</span></td><td>2026 年目标 135 亿，前三季度已完成 95.26 亿；13 家覆盖机构零中性零减持；供给瓶颈物理未解除。股价 800-1,150 箱体</td></tr>
+          <tr><td class="em">B. 二次下修</td><td><span class="badge amber">33%</span></td><td>三年连续翻倍（135→270→595 亿）不可持续；147.09 亿占款 + 经营现金流 2.28 亿；PB 40.25 倍仍远高于海光 17.42 倍。PE(2026E) 60-85x，股价 545-770</td></tr>
+          <tr><td class="em">C. 二次新高</td><td><span class="badge green">12%</span></td><td>需要「订单超预期」的硬证据，而合同负债反而萎缩，当前不支持；但国产替代 + 云厂商 CapEx 顺风仍在</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>研报日期</th><th>机构</th><th>评级</th><th>目标价</th></tr></thead>
+        <tbody>
+          <tr><td class="em">2026-02-27</td><td>群益证券</td><td>增持</td><td>1,450 元</td></tr>
+          <tr><td class="em">2026-07-29</td><td>群益证券</td><td>增持</td><td>1,350 元</td></tr>
+          <tr><td class="em">2026-10-26（三季报当日）</td><td>群益证券</td><td>增持</td><td>1,200 元（−11.1%）</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="quote">补充锚点——卖方目标价已在下修，但 EPS 一个都没动（这是「估值下修」最标准的形态）：群益目标价 6 个月累计 −17.2%（1,450→1,200），三季报当天还在降，标题写「业绩符合预期」——「符合预期」本身就是退潮信号。一致预期 EPS：2026E 9.07 元 / 2027E 19.72 元 / 2028E 33.71 元；13 家覆盖机构买入 10 + 增持 3，零中性零减持。卖方调的是估值倍数（PE），不是盈利假设（EPS）。</div>
+      <div class="note-box">⚠️ 重要澄清：寒武纪总股本从 4.22 亿股增至 6.29 亿股是 2026-05-08 的 10转4.9 送转股（同日每 10 股派现 15 元，合计 6.32 亿），<b>不是增发稀释</b>。用转增后 EPS 算 PE 会得出「PE 才 41 倍」的错误结论，正确 PE(2026E) 是 106.7 倍。另：股权激励授予价 750 元（2026-08-17 授予，现价折价 22.5%），是公司内部认可的合理价值硬锚。</div>
+
+      <h3><span class="dot"></span>7.3 「炒作退潮」证据链汇总</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>层面</th><th>状态</th><th>关键证据</th></tr></thead>
+        <tbody>
+          <tr><td class="em">预期层</td><td><span class="badge red">已退潮</span></td><td>董事长亲自辟谣「明年出货超 100 万颗」；PS/PE 分位归零；群益目标价 6 个月 −17.2%</td></tr>
+          <tr><td class="em">筹码层</td><td><span class="badge red">已退潮</span></td><td>股东户数 58,270 → 72,004（+23.57%，+13,734 户），同期股价 −36.76% → 典型散户接盘；户均市值 1,720.4 万 → 881.2 万（−48.8%）；机构持股家数 2,483 → 273/314 家（−87%~−89%）；张坤、傅鹏博、刘格菘集体清仓；北向 Q3 减持 202.67 万股</td></tr>
+          <tr><td class="em">杠杆层</td><td><span class="badge amber">退潮中</span></td><td>融资余额 11 个交易日 170.11 → 149.98 亿（−11.8%），自 6-18 峰值 270.84 亿累计 −44.6%；融券余额 0.94 亿，居科创板第一</td></tr>
+          <tr><td class="em">资金层</td><td><span class="badge green">未退潮</span></td><td>10-26 主力净流入 12.84 亿（科创板第一）、特大单 9.07 亿（全市场第一），在两市主力净流出 219.25 亿背景下逆势吸金；Q3 新进主动基金 40 只，但除东方人工智能（0.39%）、泰康新锐成长（0.08%）外其余 38 只合计不足 0.02% → 是「试仓」不是「建仓」</td></tr>
+          <tr><td class="em">业绩层</td><td><span class="badge green">在改善</span></td><td>Q3 营收环比 +13%、毛利率 56%→59%、扣非 +168.13%、单季净利创上市以来新高</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">两个必须并列的反向事实：①这是<b>板块性减配</b>，不是个股性撤退。五只 AI 链标的机构家数降幅高度一致：寒武纪 −87.4%、海光 −90.2%、中际旭创 −82.8%、新易盛 −84.3%、工业富联 −94.0%，撤退时点全部集中在 2026Q3。寒武纪是被机构抛弃得相对最「轻」的一只，跌幅也最小（1 月 −13.04%）→ 估值下修驱动来自板块 Beta，不是公司自身。②最关键的时序洞察：股价高点 1620 元出现在 Q3 财报披露（10-24）之前。市场已在「预期下修」中提前定价了这份财报 → 财报超预期只能换来 +3.84% 的单日反弹，却收不回 40% 的跌幅。</div>
+
+      <h3><span class="dot"></span>7.4 新股供给端：参照锚而非抽血</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>标的</th><th>上市日</th><th>发行价</th><th>募资总额</th><th>首日涨幅</th><th>历史高点</th><th>当前价</th><th>距高点</th><th>流通占比</th><th>PE(TTM)</th><th>PB</th></tr></thead>
+        <tbody>
+          <tr><td class="em">摩尔线程-U</td><td>2025-12-05</td><td>114.28</td><td>79.996 亿</td><td>+425.5%</td><td>941.08</td><td>378.00</td><td>−59.8%</td><td>11.9%</td><td>−239.64（亏损）</td><td>461.02</td></tr>
+          <tr><td class="em">沐曦股份-U</td><td>2025-12-17</td><td>104.66</td><td>41.97 亿</td><td>+692.9%</td><td>1,033.00</td><td>499.99</td><td>−51.6%</td><td>8.1%</td><td>22,485.81</td><td>585.60</td></tr>
+          <tr><td class="em" style="background:#fff3f1">寒武纪</td><td>2020-07-20</td><td>64.39</td><td>25.82 亿</td><td>+229.8%</td><td>1,868.00（2026-06-30）</td><td>968.00</td><td>−48.2%</td><td>100.0%</td><td>146.01</td><td>40.25</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">三点结论：①IPO 抽血已发生，且发生在 2025 年 12 月。两家合计募资 121.96 亿，是寒武纪 IPO 募资额（25.82 亿）的 4.7 倍，但当时是「板块估值燃料添加」而非抽血（首日涨 425%/693%）。②在筹码供给维度，寒武纪是三家里最干净的：100% 全流通、2026 年零解禁、2027-2028 零解禁批次——「解禁抽血」这个变量已永久性消失。③寒武纪 PB 40.25 倍 vs 摩尔线程 461 倍、沐曦 586 倍，是四家里最低的 → 新股是参照锚而非压制。</div>
+    </section>
+
+    <!-- ============ S8 ============ -->
+    <section id="s8">
+      <div class="sec-head"><span class="num">8</span><h2>跟踪指标与结论</h2></div>
+
+      <h3><span class="dot"></span>8.1 未来 2-4 季度可量化跟踪指标（含触发阈值）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>指标</th><th>当前基线（2026Q3）</th><th>🟢 改善触发</th><th>🔴 恶化触发（警讯）</th><th>权重</th></tr></thead>
+        <tbody>
+          <tr><td class="em">1</td><td>单季经营活动现金流净额</td><td>Q3 −0.83 亿</td><td>Q4 单季 &gt; +10 亿</td><td>Q4 单季 &lt; 0（连续第 3 季为负）</td><td>最高</td></tr>
+          <tr><td class="em">2</td><td>存货余额 / 前三季营收</td><td>116.65 亿 / 122.5%</td><td>Q4 存货 &lt; 116.65 亿</td><td>&gt; 130%</td><td>最高</td></tr>
+          <tr><td class="em">3</td><td>单季毛利率</td><td>59%（Q2 56%）</td><td>维持 ≥ 58%</td><td>环比回落 &gt; 2pct（&lt; 57%）</td><td>最高</td></tr>
+          <tr><td class="em">4</td><td>单季存货跌价计提</td><td>Q3 5.02 亿</td><td>Q4 &lt; 2 亿</td><td>Q4 再计提 &gt; 3 亿（叠加 #3 = 戴维斯双杀点火）</td><td>高</td></tr>
+          <tr><td class="em">5</td><td>合同负债余额</td><td>1.41 亿（较 Q1 −64.3%）</td><td>环比回升 &gt; 2 亿</td><td>跌破 1 亿 或连续第 3 季下滑</td><td>高</td></tr>
+          <tr><td class="em">6</td><td>单季营收环比增速</td><td>Q3 +13%（35.31 亿）</td><td>Q4 环比 &gt; +10% 且创新高</td><td>Q4 环比转负</td><td>高</td></tr>
+          <tr><td class="em">7</td><td>卖方 EPS 2027E 一致预期</td><td>19.72 元</td><td>上调</td><td>下调 &gt; 10%（&lt; 17.7 元）</td><td>高</td></tr>
+          <tr><td class="em">8</td><td>融资余额</td><td>149.98 亿（10-23）</td><td>企稳回升且伴随股价上涨</td><td>&lt; 100 亿（多头基本出清）</td><td>中</td></tr>
+          <tr><td class="em">9</td><td>机构持股家数（主动型口径）</td><td>Q2 2,483 → Q3 273/314 家</td><td>主动型公募新进/加仓</td><td>跌破 200 家</td><td>中</td></tr>
+          <tr><td class="em">10</td><td>美国 10Y 国债收益率</td><td>4.999%（10-23）</td><td>回落至 4.5% 以下</td><td>破 5% 后加速上行</td><td>中</td></tr>
+          <tr><td class="em">11</td><td>云端产品线营收占比 / 三季报分产品披露</td><td>99.9774%（2026H1）</td><td>新增 IP/边缘/海外收入被单独披露</td><td>仍 &gt; 99.9% 且分产品数据持续不披露</td><td>中</td></tr>
+          <tr><td class="em">12</td><td>IDC 全年份额</td><td>5%（2026H1）</td><td>提升至 7%+</td><td>停滞或下滑</td><td>中</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="quote">如果只能盯三个，我选：① Q4 单季经营现金流 &gt; +10 亿（决定「利润是不是真的」）；② Q4 单季存货 &lt; 116.65 亿且毛利率 ≥ 58%（两项同时成立 = 占款正常周转 + 定价权未失）；③ 合同负债环比回升 &gt; 2 亿（唯一能提前 1-2 季度看到订单回暖的官方指标）。<br>补充观察点：2026-12-07 摩尔线程解禁 3.32%、2026-12-17 沐曦解禁 0.34%——若解禁前后新股大跌，说明是板块估值中枢下移而非寒武纪个体问题。</div>
+
+      <h3><span class="dot"></span>8.2 最终投资观点（用户七问）</h3>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>问题</th><th>回答</th></tr></thead>
+        <tbody>
+          <tr><td class="em">1. 近期财报情况</td><td>利润表优秀、资产负债表紧张、现金流量表失真。收入端干净（收现比 112%、应收占收 9.8%、扣非占比 94.8%、研发 100% 费用化、主动计提 5.02 亿存货跌价）；但经营现金流 2.28 亿 vs 归母 37.15 亿，现金转化率 6.1%，Q2/Q3 连续两季为负，差额 34.87 亿；存货 116.65 亿超 2025 全年营收 1.8 倍。是「用供应链的钱做自己的库存」，不是造假，但也不是没有代价。</td></tr>
+          <tr><td class="em">2. 主要业务板块 + 订单</td><td>单一产品线撑起全部业绩，第二曲线已消失。云端占 99.9774%（+108.9%），IP 授权归零，边缘 −43.8%，境外趋近于零。订单：三季报未披露 backlog、无自身中标公告；但存货+预付 147.09 亿物料已锁定、供应链垫资 67.93 亿，订单是真的，收不到钱是真问题。</td></tr>
+          <tr><td class="em">3. 经营问题与风险</td><td>高等级 4 项（现金流转化 6.1%／存货超全年营收 1.8 倍且已计提 5.02 亿／单一品类 + IP 归零 + 境外为零／毛利率回升靠可反转条件）、中等级 5 项、低等级 2 项。风险集中在 2026Q4-2027Q1 的存货与现金流。</td></tr>
+          <tr><td class="em">4. 板块内水平 + 前景</td><td>IDC 份额 5% 国产第三，财务口径国产第一。有前景（未来 2-3 年收入端 50-100% 高增，供给约束持续到 2027H1，是国产 AI 芯片里唯一纯且干净的可交易标的），但天花板清晰：单品类 99.98%、无系统级叙事、无上游议价权、产能不透明。</td></tr>
+          <tr><td class="em">5. 科技股崩塌 + 茅台股王</td><td>同一枚硬币的两面，驱动变量是全球无风险利率上行。Fed 9 月加息 25bp、点阵图中位上修至 4.1%、10Y 逼近 5% → 长久期科技股被杀；茅台重回的是「股价第一」不是「市值第一」，是高价股内部的高低切换，杀位置不杀方向。寒武纪 1 月 −13.04% 是 AI 链跌幅最小的一批——被拖累，不是被针对。</td></tr>
+          <tr><td class="em">6. 当前估值 vs 历史</td><td>PS(TTM) 53.32 = 近 3 年/1 年/年内 0% 分位，PE(TTM) 146.01 也是近 3 年最低。但这是分母效应：股价近 3 年仍在 62% 分位、市值 82% 分位。PB 40.25 倍是真正硬约束（净资产 24.05 元/股），PCF 为负已失效，该用 PS(forward)：2026E 46.6x、2027E 23.4x，即便增速降到 30-50% 仍在 31-36 倍——不便宜。</td></tr>
+          <tr><td class="em">7. 会不会走估值下修 / 炒作是否退潮</td><td>会，但走的是分母端，且已走完第一段。分母端（估值杀）50% &gt; 分子端（业绩杀）30% &gt; 戴维斯双杀 20%；三情景：震荡消化 55% / 二次下修 33% / 二次新高 12%。炒作已在预期层和筹码层退潮（机构 −87%、户数 +23.57%、目标价 6 个月 −17.2%），但资金层和业绩层尚未退潮。阶段 1「杀估值」已完成，阶段 2「业绩消化估值 + 目标价中枢下移」进行中（约 50-60%），阶段 3「业绩证伪」未启动。</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="verdict">
+        <span class="tag">总结论</span>
+        <h3>寒武纪当前是「炒作已经退潮，而业绩刚开始兑现」的时点</h3>
+        <p>基本面可信（利润是真的、行业替代在加速、公司是国产 AI 芯片里最干净的可交易标的）；估值不便宜（PB 40 倍、PS(2027E) 31-36 倍，低分位是分母假象）；流动性在恶化（机构撤退、散户接盘、融资盘收缩）；风险高度集中在 2026Q4-2027Q1 的存货跌价与经营现金流。<br><b>操作原则：</b>不因「三年最低 PS」左侧重仓；等 Q4 报（预计 2027 年 4 月）三个决定性指标落地。若必须配置：把持股比例定在「可承受 PS(2027E) 回到 25-30 倍」的规模上，而非「PE 降到 100 倍」的规模上。<br><b>减仓触发器（四选一即预警）：</b>合同负债 &lt; 1 亿 ｜ 存货/营收 &gt; 130% ｜ 卖方首次出现中性/减持 ｜ 融资余额 &lt; 100 亿。</p>
+      </div>
+    </section>
+
+    <!-- ============ S9 ============ -->
+    <section id="s9">
+      <div class="sec-head"><span class="num">9</span><h2>数据来源与口径说明</h2></div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>项目</th><th>口径</th></tr></thead>
+        <tbody>
+          <tr><td class="em">行情数据</td><td>2026-10-26 收盘（腾讯行情 qt.gtimg.cn，16:14 快照）</td></tr>
+          <tr><td class="em">财报期</td><td>2026 年三季报，报告期末 2026-09-30，披露日 2026-10-24</td></tr>
+          <tr><td class="em">行情与估值数据源</td><td>腾讯行情 qt.gtimg.cn + 东方财富 RPT_VALUEANALYSIS_DET 等 F10 数据接口</td></tr>
+          <tr><td class="em">历史分位样本</td><td>东财 RPT_VALUEANALYSIS_DET 全量日频 N=1519（2020-07-20 上市首日 → 2026-10-26）</td></tr>
+          <tr><td class="em">分产品口径</td><td>2026 年半年报（东财主营构成接口三季报未更新）</td></tr>
+          <tr><td class="em">IDC 份额</td><td>IDC 2026H1 报告，经中国经营网 2026-10-24 转引</td></tr>
+          <tr><td class="em">美联储数据</td><td>FOMC 声明（2026-07-29、2026-09-16）、SEP（2026-09）、Federal Reserve H.15 日频</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>冲突项</th><th>数值差异</th><th>采纳口径</th><th>依据</th></tr></thead>
+        <tbody>
+          <tr><td class="em">机构持股家数 Q3</td><td>基兰 273 家 vs 斯维因 314 家</td><td>两者并列呈现</td><td>差异来源：Q3 季报仅强制披露前十大流通股东明细。趋势方向完全一致（−87%~−89%）</td></tr>
+          <tr><td class="em">本轮高点</td><td>52 周高点 1620.00 元 vs 年内盘中高点 1885.53 元</td><td>两者并列</td><td>口径不同（收盘/区间 vs 盘中）</td></tr>
+          <tr><td class="em">总股本变动</td><td>4.22 亿股 → 6.29 亿股</td><td>非增发，为 2026-05-08「10 转 4.9」送转股</td><td>东财 F10 + 派息记录核实；本文 PE 均用转增后 EPS</td></tr>
+          <tr><td class="em">三季报扣非归母净利</td><td>API 未返回 → 已由 21 世纪经济报道补齐</td><td>35.23 亿（Q3 单季 13.58 亿）</td><td>21 世纪经济报道 2026-10-26</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note-box">校验状态：307 个数据点中 3 项已验证、3 项因数据源错误或财报字段缺失而跳过、0 项失败、0 项警告；被跳过的 3 项已由东方财富 datacenter API 与 21 世纪经济报道交叉补齐。所有比率均为上游分析师计算值或基于上游数据的直接算术，推算值已明确标注（如存货周转天数 548 天为估算值，非披露值）。</div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="foot">
+      <b>股哥·投研部</b> · 寒武纪（688256.SH）深度分析报告 · 报告时间 2026-10-26 · 数据截止 2026-10-26 收盘
+      <div class="disclaimer">免责声明：本报告仅供研究参考，不构成投资建议。文中所有概率判断（55%/33%/12%、50%/30%/20% 等）均为分析师在给定证据下的主观赋值，不代表对未来实际概率的承诺。市场有风险，决策需谨慎。</div>
+    </div>
+
+  </div>
+</div>
+
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+  const toTop=document.getElementById('toTop');
+  window.addEventListener('scroll',()=>{toTop.classList.toggle('show',window.scrollY>500)});
+  toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const links=[...document.querySelectorAll('.toc a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){
+      const id='#'+e.target.id;
+      links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')===id));
+    }});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
